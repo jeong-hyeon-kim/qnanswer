@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="BBakco" />
+    <meta name="description" content="" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1" />
+
+    <!-- http://ogp.me/ -->
+    <meta property="og:title" content="QnAnswers"/>
+    <meta property="og:description" content="당신이 대답하고 싶은 모든 질문들"/>
+    <meta property="og:image" content="/static/image/ogimage.png"/>
+
+    <!-- https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started.html -->
+    <meta property="twitter:card" content="" />
+    <meta property="twitter:site" content="" />
+    <meta property="twitter:title" content="" />
+    <meta property="twitter:description" content="" />
+    <meta property="twitter:image" content="" />
+    <meta property="twitter:url" content="" />
+
+    <title>QnAnswers</title>
+
+    <!-- CSS reset, CSS style, Jquery import -->
+    <link rel="stylesheet" href="/static/reset.css" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <!-- 일반적인 fabicon 설정 (정현) -->
+    <link rel="icon" href="../static/image/fabicon.ico">
+    <!-- 아이폰용 fabicon 설정 (정현) -->
+    <link rel="apple-touch-icon" href="../static/image/fabicon.ico">
+    <!-- 인터넷 익스플로러용 fabicon 설정 -->
+    <link rel="short icon" type="image/x-icon" href="../static/image/fabicon.ico">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap" rel="stylesheet">
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            /* background-color: rgb(68,68,68); */
+            background-color: white;
+            /* background: linear-gradient(to right, rgb(255, 156, 156),rgb(255, 245, 160)); */
+        }
+
+        .wrap {
+            width: 60vw;
+            height: 87vh;
+            display: block;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .question {
+            background-color: rgba(0, 0, 0, 0);
+            height: 93vh;
+            width: 60vw;
+            display: table-cell;
+            vertical-align: middle;
+            white-space: pre-line;
+            font-size: 3vh;
+            line-height: 5vh;
+        }
+
+        .fade-in {
+            animation: fadein 3s;
+        }
+
+        @keyframes fadein {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .A-input-class {
+            font-size: 3vh;
+            color: black;
+            width: 60vw;
+            height: 1.8em;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: 0.55vh solid black;
+            background-color: rgba(0, 0, 0, 0);
+            outline: none;
+            margin-bottom: 3vh;
+        }
+
+        .qna-next-btn {
+            background-color: rgba(0, 0, 0, 0);
+            border: none;
+            color: lightgrey;
+            font-size: 1.8vh;
+            font-weight: bold;
+            float: right;
+            /* margin-top: 3vh; */
+        }
+
+        .qna-next-btn:hover {
+            color: darkgrey;
+        }
+
+        .qna-submit-btn {
+            background-color: rgba(0, 0, 0, 0);
+            border: none;
+            color: black;
+            font-size: 2.5vh;
+            font-weight: bold;
+            float: right;
+            margin-top: 0.5vh;
+            width: fit-content;
+        }
+
+        .qna-submit-btn:hover {
+            font-size: 2.6vh;
+        }
+
+        @media screen and (max-width: 780px) {
+            .wrap {
+                width: 75vw;
+            }
+
+            .question {
+                width: 75vw;
+                font-size: 2.8vh;
+            }
+
+            .A-input-class {
+                width: 75vw;
+            }
+
+            .qna-next-btn {
+                font-size: 1.6vh;
+            }
+
+            .qna-submit-btn {
+                font-size: 2.3vh;
+            }
+        }
+
+        /*답변 인풋 애니메이션*/
+        .A-input-box :focus {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            /* border-bottom: 0.55vh solid #ff3300; */
+            border-bottom: 0.55vh solid #ff5d34;
+            /* border-bottom: 0.55vh solid;
+            border-image: linear-gradient(to right, rgb(255, 156, 156),rgb(255, 245, 160)); */
+            border-image-slice: 1;
+        }
+    </style>
+    <style>
+        /*헤더 스타일*/
+        #nav {
+            width: 100vw;
+            height: 7vh;
+            background: #ff3300;
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        .mypagebtn,
+        .logoutbtn {
+            color: white;
+            margin: 20px;
+            font-size: 20px;
+            padding: 30px 30px 0 0;
+            text-decoration: none;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .mypagebtn:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .logoutbtn:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .dropdown {
+            margin-right: 13px;
+        }
+
+        .dropdown:hover .mypagebtn {
+            background: #ff3300
+        }
+
+        footer {
+            width: 100vw;
+            height: 6vh;
+            background: #ff3300;
+            position: absolute;
+        }
+    </style>
+
+    <script>
+        //페이지 로딩시 랜덤 질문 from JSON.
+        window.onload = function () {
+            getQuestions();
+        };
+
+        //버튼 클릭시 랜덤 질문 from JSON.
+        function getQuestions() {
+            $("#station").empty();
+
+            $.ajax({
+                type: "GET",
+                url: "/contents/get",
+                data: {},
+                success: function (response) {
+                    let questions = response["all_questions"];
+                    let i = Math.floor(Math.random() * questions.length);
+                    let question = questions[i]["q"];
+                    let temp_html = `${question}`;
+                    $("#station").append(temp_html);
+                },
+            });
+        }
+
+        //버튼 클릭시 랜덤 질문 from JSON.
+        function postAnswers() {
+            let question = $("#station").text();
+            let answer = $("#A-input-id").val();
+            $("#A-input-id").val(""); // input 박스 초기화
+
+            $.ajax({
+                type: "POST",
+                url: "/contents/post",
+                data: {
+                    question_give: question,
+                    answer_give: answer
+                },
+                success: function (response) {
+                    // 성공하면
+                    alert(response["msg"]);
+                },
+            });
+        }
+    console.log(session['user'])
+        //질문 div 클릭시 높이변화(답변창 팝업) 이벤트 전파 중단
+        function cancelPropagation(event) {
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            } else {
+                event.cancelBubble = true;
+            }
+        }
+    </script>
+
+    <script>
+        /*로그아웃 알림 로그아웃*/
+        function confirmLogout() {
+            if (confirm("로그아웃 하시겠습니까?")) {
+                location.href = '/user/signout'
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div id="nav">
+            <div class="dropdown">
+                <a class="mypagebtn" href="/main/user"><br>Home</a>
+                <a class="mypagebtn" href="/mypage">My page</a>
+            </div>
+            <div id="logbtn">
+                <a class="logoutbtn" type="button" href="javascript:void(0);" onclick="confirmLogout();"><br>Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="wrap">
+        <div class="question fade-in overlay" onClick="
+        if(this.style.height === '93vh') {
+            this.style.height = '60vh';
+        }
+        else {
+            this.style.height = '93vh';
+        }
+        ">
+            <span style="font-size: 5vh">Q.</span>
+            <div id="station" style="font-family: 'Noto Sans KR', sans-serif; font-weight: bold"></div>
+            <span class="example" onclick="cancelPropagation(event);">
+                <button class="qna-next-btn" onclick="getQuestions()">
+                    다른 질문을 원하신다면 >
+                </button>
+            </span>
+        </div>
+        <div class="A-out-box">
+            <span style="font-size: 5vh">A.</span>
+            <div class="A-input-box">
+                <input class="A-input-class" id="A-input-id" type="text" placeholder="답변을 입력해주세요." />
+            </div>
+            <button onclick="postAnswers(); getQuestions()" class="qna-submit-btn">
+                저장하기 >
+            </button>
+        </div>
+    </div>
+
+    <footer></footer>
+</body>
+
+</html>

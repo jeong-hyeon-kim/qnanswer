@@ -1,0 +1,908 @@
+/* 순서 (1)전체, 레이아웃 (2)login-popup (3)로그인팝업창 
+(4)section01 -> 02 -> 03 (5)footer (6)미디어쿼리로 조절 */
+
+
+* {
+    box-sizing: border-box;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+/* 스크롤바 */
+body::-webkit-scrollbar {
+    width:1rem;
+}
+body::-webkit-scrollbar-thumb {
+    background-color: #f5957d;
+    border-radius: 1rem;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+body::-webkit-scrollbar-track {
+    background-color: lightgrey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+}
+
+
+/* 레이아웃 */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a { 
+    text-decoration:none 
+} 
+
+.section {
+    position: relative;
+}
+
+.section {
+    position: relative;
+}
+
+#header {
+    background-color: #ff3300;
+}
+
+#section_01 {
+    background-color: #ff3300;
+}
+
+#section_02 {
+    background-color: white;
+}
+
+#section_03 {
+    background-color: white;
+}
+
+#footer {
+    background-color: #ff3300;
+}
+
+ 
+/* 헤더 */
+.header {
+    width: 100%;
+    height: 50px;
+    background-color: #ff3300;
+    padding: 0.3rem;
+}
+
+.header .header_menu {
+    text-align: right;
+}
+
+.header .header_menu a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 15px 0 6px 10px;
+    display: inline-block;
+    transition: color 0.3s ease;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+}
+
+.header .header_menu a:hover {
+    color: rgba(255, 255, 255, 0.8);   
+}
+
+
+/* 로그인 팝업 */
+.login-popup {
+    border-radius: 6px;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    padding: 50px;
+    z-index: 999;
+    display: flex;
+    visibility: hidden;
+    transition: all 0.4s;
+    margin: 0 auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.login-btn{
+    margin-top: 20px;
+}
+
+.login-popup a {
+    text-align: right;
+}
+
+.login-popup:target {
+    visibility: visible;
+}
+
+.login-popup:target + .dim {
+    visibility: visible;
+    z-index: 998;
+}
+
+.dim {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    visibility: hidden;
+    transition: all 0.4s;
+}
+
+/* inputbox에 대한 효과 */
+.login-container_input_id img {
+    display: inline-block;
+}
+
+.outBox {
+    /* margin:15px auto;*/
+    padding:0px;
+    max-width:400px;
+    border:none;
+    border-radius:6px;
+    display: inline-block;
+}
+
+.outBox .inputBox {
+    position:relative;
+    height:50px;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.outBox .inputBox input[type="text"] {
+    padding:0 10px;
+    width:100%;
+    height:40px;
+    font-size:14px;
+    box-sizing:border-box;
+    border:1px solid #999;
+    outline:none;
+    display: inline-block;
+}
+
+.outBox .inputBox input[type="password"] {
+    padding:0 10px;
+    width:100%;
+    height:40px;
+    font-size:14px;
+    box-sizing:border-box;
+    border:1px solid #999;
+    outline:none;
+    display: inline-block;
+}
+
+.outBox .inputBox label {
+    position:absolute;
+    left:0;
+    bottom:0;
+    padding:0 6px;
+    color:#999;
+    font-size:14px;
+    font-weight:normal;
+    background:#fff;
+    transform:scale(1)
+    translate(4px, -18px);
+    transition:all .15s;
+    pointer-events:none;}
+
+.outBox .inputBox input[type="text"]:focus,
+.outBox.existence .inputBox input[type="text"] {
+    border:2px solid #ff3300;}
+
+.outBox .inputBox input[type="text"]:focus + label,
+.outBox.existence .inputBox label {
+    color:#ff3300;
+    transform:scale(.85) translate(-10px, -48px);}
+
+.outBox .inputBox input[type="password"]:focus,
+.outBox.existence .inputBox input[type="password"] {
+    border:2px solid #ff3300;
+}
+
+.outBox .inputBox input[type="password"]:focus + label,
+.outBox.existence .inputBox label {
+    color:#ff3300;
+     transform:scale(.85) translate(-10px, -48px);
+    }
+
+.login-popup center {
+    margin: auto;
+}
+
+
+.login-wrap {
+    position: relative;
+    margin: 0 auto;
+}
+
+
+.login-container_input {
+  display: block;
+  position: relative;
+  align-items: center;
+
+}
+
+.login-container_input_id {
+    line-height: 100%;
+    align-items: center;
+    display: inline-block;
+}
+
+.login-container_input_id img {
+    width: 30px;
+    transform: translateY(10px);
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.login-container_input_pw img {
+    width: 30px;
+    transform: translateY(10px);
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.login-btn {
+    width: 90%;
+    height: 40px;
+    background: #ff3300;
+    margin: 10px auto;
+    border-radius: 8px;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    line-height: 40px;
+    position: relative;
+}
+
+.login-btn:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 100px rgba(0,0,0,0.15) inset;
+}
+
+.other-option {
+    margin-top: 30px;
+    position: relative;
+}
+
+.login-other-options-container {
+    display: inline;
+}
+
+.other-option div a {
+    text-decoration: none;
+    color: darkgray;
+}
+
+.other-option div a :hover {
+    text-decoration: none;
+    color: #000;
+}
+
+.other-option div {
+    margin-top: 10px;
+}
+
+
+
+.other-option {
+    bottom: 10px;
+    text-align: center;
+}
+
+.other-option a {
+    color: darkgray;
+}
+
+.other-option a:hover {
+    color: black;
+}
+
+
+#exit-loginbox {
+    display: block;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    font-size: 15px;
+    font-weight: 800;
+    text-decoration: none;
+    color: #fff;
+    background-color: lightgray;
+    padding: 0px 8px 5px 7px;
+    border-radius: 50%;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+#exit-loginbox:hover {
+    background-color: black;
+}
+
+.login-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    margin-bottom: 10px;
+    margin-top: 0;
+    text-align: center;
+    color: darkgray;
+}
+
+ .login-title span {
+     font-size: 50px;
+     color: #000;
+ }
+
+#login_hr1 {
+    border: none;
+    color: #000;
+    display: block;
+}
+
+
+
+/* section_01 */
+.section_01 {
+    position: relative;
+    width: 100%;
+    height: 700px;
+    background-color: #ff3300;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+
+.section_01 .Q_wrapper {
+    display: flex;
+    margin-top: 120px;
+}
+
+.section_01 .Q_text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 100px;
+    color: white;
+    padding-top: 100px;
+    margin: 0 10px;
+}
+
+.section_01 .Q_image {
+    width: 200px;
+    height: 386px;
+    margin: 0 10px;
+    display: block;
+}
+
+.section_01 .Q_image .logo {
+    max-width: 100%;
+    height: auto;
+}
+
+.section_01 .Q_image:hover {
+    cursor: pointer;
+}
+
+.logo {
+    animation: up-down 1.4s infinite ease-in-out alternate;
+}
+
+@keyframes up-down{
+  from{
+    transform: translatey(0px);
+  }
+  to{
+    transform: translatey(-20px);
+  }
+}
+
+
+
+/* section_02 */
+.inner {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0rem 2rem;
+    overflow: hidden;
+}
+
+.section--second {
+    position: relative;
+    background-color: #ffffff;
+    background-size: cover;
+    height: 754px;
+}
+
+.qna-container {
+      width: 100%;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      justify-content: space-around;
+      align-items: center;
+      overflow: hidden;
+}
+
+.qna-title-container {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+  }
+
+.qna-title {
+      font-size: 3rem;
+      font-family: 'Cormorant Garamond', serif;
+      margin-left: 2rem;
+  }
+
+   /* section_02: 카드리스트 좌우 이동 */
+.arrow-container {
+      display: flex;
+  }
+
+.slide-prev {
+      margin: 3px;
+      cursor: pointer;
+  }
+
+  .slide-next {
+      margin: 3px;
+      cursor: pointer;
+  }
+
+.qna-desc {
+    margin: 40px;
+    font-size: 1.3rem;
+}
+
+  .qna-showlist {
+      display: flex;
+      list-style: none;
+      padding: 0 0 2rem 0;
+      position: relative;
+      margin: 0 0 0 0;
+      overflow: hidden;
+      /* transition: 1.3s; */
+
+  }
+
+  .qna-showlist.animated {
+      transition: 0.5s ease-out;
+  }
+
+
+  .qna-showcard {
+      width: 340px;
+      height: 500px;
+      box-shadow: 10px 10px 10px -5px rgba(25, 42, 70, 0.3);
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+  }
+
+  .qna-showcard:not(:last-child) {
+      margin-right: 40px;
+  }
+
+  .qna-showcard:hover {
+    box-shadow: 10px 10px 10px 0px rgba(25, 42, 70, 0.2);
+    transform: translate(0, -5px);
+    transition-duration: 0.6s;
+  }
+
+  .show-question-container {
+      padding: 30px;
+  }
+
+  .show-question-text {
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 180%;
+      font-weight: 600;
+    
+  }
+
+  .show-answer-container {
+      padding: 30px;
+  }
+
+  .show-answer-text {
+      font-size: 1rem;
+      line-height: 180%;
+      width: 100%;    
+      display:-webkit-box;
+      -webkit-line-clamp:9;
+      -webkit-box-orient:vertical;
+      height: 100%;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      font-weight: 348;
+}
+
+#backtotop {
+  background-color: rgb(47, 48, 89);
+  width: 40px;
+  height: 40px;
+  text-align: center;
+
+  border-radius: 20px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  transition-property: background-color, opacity, visibility;
+  transition-duration: 0.3s, 0.5s, 0.5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 999;
+}
+
+/* 아이콘 적용 방법
+  1. ::after (요소 뒤에 content 추가) 가상 요소에서,
+  2. content: "폰트어썸 유니코드" 를 넣고,
+  3. font-family: FontAwesome 이라고 넣으면 됨
+  */
+#backtotop::after {
+  content: "\f077";
+  font-family: FontAwesome;
+  font-size: 1.5rem;
+  line-height: 40px;
+  color: #fff;
+}
+
+#backtotop.show:hover {
+  cursor: pointer;
+  background-color: #2186c4;
+}
+
+#backtotop.show {
+  opacity: 1;
+  visibility: visible;
+  background-color: rgb(47, 48, 49);
+}
+
+/* section3 */
+
+/* section_03 */
+.section_03 {
+    width: 100%;
+    height: 850px;
+}
+
+.section_03 .member_title {
+    font-size: 40px;
+    font-family: 'Cormorant Garamond', serif;
+    padding-top: 50px;
+    padding-left: 130px;
+}
+
+.section_03 .member {
+    font-size: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    place-items: center;
+    padding: 20px 10%;
+}
+
+.section_03 .member .member_img {
+    display: block;
+    margin: 15px auto;
+    width: 170px;
+    height: 170px;
+    border-radius: 100px;
+}
+
+/* 푸터 */
+.footer {
+    width: 100%;
+    height: 180px;
+    margin-top: 10px;
+
+    font-size: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+
+    padding: 0px 0 0 0;
+}
+
+/* 푸터 - 공유 아이콘 */
+.footer_icon {
+    text-align: center; 
+    margin-top: 0px; 
+    padding-bottom: 20px;
+    position: relative;
+    padding-top: 55px;
+}
+
+
+ .footer_icon li {
+display: inline; 
+margin: 0 10px;
+}
+.footer_icon li a {
+            position: relative; 
+            background-color: #fff; 
+            border-radius: 50%; 
+            width: 60px; height: 60px; 
+            color: #ff3300;  
+            display: inline-block; 
+            font-size: 35px; 
+            line-height: 60px; 
+            transition: all 0.3s ease;
+        }
+
+        .footer_icon li a span {
+            position: absolute; 
+            left: 50%; top: -40px; 
+            transform: translateX(-50%); 
+            font-size: 12px; 
+            line-height: 1.6; 
+            background: #fff; 
+            padding: 3px 9px; 
+            border-radius: 6px 6px; 
+            opacity: 0; 
+            transition: all 0.3s ease;
+        }
+        .footer_icon li a span:before {
+            content:''; 
+            position: absolute; 
+            left: 50%; bottom: -5px; 
+            margin-left: -5px; 
+            border-top: 5px solid #ff3300; 
+            border-left: 5px solid transparent; 
+            border-right: 5px solid transparent;
+        }
+        .footer_icon li a:hover span {
+            opacity: 1; 
+            top: -33px;
+        }
+        .footer_icon li a:hover {
+            box-shadow: 
+                /* 0 0 0 3px rgba(0,0,0,0.9) inset,  */
+                0 0 0 100px rgba(0,0,0,0.1) inset;
+        }
+
+        .footer_icon li .kakaotalk img {
+            width: 40px;
+            height: 40px;
+            transform: translateY(10px);
+            justify-content: center;
+        }
+
+        .footer-icon_title {
+            font-size: 25px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 20px;
+        }
+
+        .footer .collaboration {
+            width: 180px;
+            margin-top: 25px;
+        }
+
+/*backtotop 버튼*/
+#backtotop {
+    background-color: rgb(47, 48, 89);
+    width: 40px;
+    height: 40px;
+    text-align: center;
+
+    border-radius: 20px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    transition-property: background-color, opacity, visibility;
+    transition-duration: 0.3s, 0.5s, 0.5s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 999;
+}
+
+/* 아이콘 적용 방법
+  1. ::after (요소 뒤에 content 추가) 가상 요소에서,
+  2. content: "폰트어썸 유니코드" 를 넣고,
+  3. font-family: FontAwesome 이라고 넣으면 됨
+  */
+#backtotop::after {
+    content: "\f077";
+    font-family: FontAwesome;
+    font-size: 1.5rem;
+    line-height: 40px;
+    color: #fff;
+}
+
+#backtotop.show:hover {
+    cursor: pointer;
+    background-color: #2186c4;
+}
+
+#backtotop.show {
+    opacity: 1;
+    visibility: visible;
+    background-color: rgb(47, 48, 49);
+}
+
+
+/* media query*/
+
+@media only screen and (min-width: 1200px) {
+    .inner {
+        max-width: 1200px;
+    }
+}
+
+/* 화면 너비 0 ~ 1540px */
+@media (max-width: 1540px) {
+    .header {
+        width: 100%;
+    }
+
+    .header .row {
+        padding: 0 15px;
+    }
+
+    .section_01 {
+        width: 100%;
+    }
+
+    .section_02 {
+        width: 100%;
+    }
+
+    .section_03 {
+        width: 100%;
+    }
+
+    .footer {
+        width: 100%;
+    }
+
+
+}
+
+/* 화면 너비 0 ~ 1300px */
+@media (max-width: 1300px) {
+    .section_03 {
+        height: 1010px;
+    }
+
+    .section_03 .member {
+        font-size: 19px;
+        grid-template-columns: 1fr 1fr 1fr;
+        padding: 20px 15%;
+    }
+
+    .section_03 .member .member_img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .section_03 .member_title {
+        font-size: 35px;
+        padding-top: 50px;
+        padding-left: 140px;
+    }
+}
+
+
+
+
+/* 화면 너비 0 ~ 1024px */
+
+
+
+
+
+/* 화면 너비 0 ~ 980px */
+@media (max-width: 980px) {
+    .section_01 .Q_text {
+        font-size: 90px;
+    }
+    .section_01 .Q_image {
+        width: 130px;
+    }
+}
+
+
+/* 화면 너비 0 ~ 860px */
+@media (max-width: 860px) {
+    .section_03 {
+        height: 1370px;
+    }
+
+    .section_03 .member {
+        font-size: 18px;
+        grid-template-columns: 1fr 1fr;
+        padding: 20px 10%;
+    }
+
+    .section_03 .member .member_img {
+        width: 130px;
+        height: 130px;
+    }
+
+    .section_03 .member_title {
+        font-size: 33px;
+        padding-top: 50px;
+        padding-left: 140px;
+    }
+
+}
+
+
+
+
+/* 화면 너비 0 ~ 768px */
+@media (max-width: 768px) {
+    .section_01 .Q_text {
+        font-size: 60px;
+    }
+    .section_01 .Q_image {
+        width: 130px;
+    }
+
+    .section_03 {
+        height: 1300px;
+    }
+
+    .section_03 .member {
+        font-size: 17px;
+        padding: 20px 10%;
+    }
+
+    .section_03 .member .member_img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .section_03 .member_title {
+        font-size: 33px;
+        padding-top: 50px;
+        padding-left: 60px;
+    }
+  
+}
+
+@media (max-width: 508px) {
+    .login-popup {
+        width: 254.52px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .section_01 .Q_text {
+        font-size: 40px;
+    }
+
+
+}
+
+@media (max-width: 376px) and (orientation: portrait){
+    .section_01 .Q_text {
+        font-size: 35px;
+    }
+
+}
+
+
+@media (max-width: 300px) and (orientation: portrait) {
+    .section_01 .Q_text {
+        font-size: 20px;
+    }
+   
+}

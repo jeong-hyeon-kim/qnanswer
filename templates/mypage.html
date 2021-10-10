@@ -1,0 +1,341 @@
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="BBakco" />
+    <meta name="description" content="" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1" />
+
+    <!-- http://ogp.me/ -->
+    <meta property="og:title" content="QnAnswers"/>
+    <meta property="og:description" content="당신이 대답하고 싶은 모든 질문들"/>
+    <meta property="og:image" content="/static/image/ogimage.png"/>
+
+    <!-- https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started.html -->
+    <meta property="twitter:card" content="">
+    <meta property="twitter:site" content="">
+    <meta property="twitter:title" content="">
+    <meta property="twitter:description" content="">
+    <meta property="twitter:image" content="">
+    <meta property="twitter:url" content="">
+
+    <title>QnAnswers</title>
+
+    <!-- CSS reset, CSS style, Jquery import -->
+    <link rel="stylesheet" href="/static/reset.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <!-- 일반적인 fabicon 설정 (정현) -->
+    <link rel="icon" href="../static/image/fabicon.ico">
+    <!-- 아이폰용 fabicon 설정 (정현) -->
+    <link rel="apple-touch-icon" href="../static/image/fabicon.ico">
+    <!-- 인터넷 익스플로러용 fabicon 설정 -->
+    <link rel="short icon" type="image/x-icon" href="../static/image/fabicon.ico">
+
+    <!--영어 폰트-->
+    <!--font-family: 'Cormorant Garamond', serif; -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap" rel="stylesheet">
+
+    <!--한글 폰트-->
+    <!--font-family: 'Noto Sans KR', sans-serif; -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        #nav {
+            width: 100vw;
+            height: 7vh;
+            background: #ff3300;
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        .mypagebtn,
+        .logoutbtn {
+            color: white;
+            margin: 20px;
+            font-size: 20px;
+            padding: 30px 30px 0 0;
+            text-decoration: none;
+        }
+
+        .mypagebtn:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .logoutbtn:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .dropdown:hover .mypagebtn {
+            background: #ff3300
+        }
+
+        .dropdown {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .dropdown a {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+
+        .logoutbtn {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+    </style>
+
+    <script>
+        //로그아웃 알림 로그아웃
+        function confirmLogout() {
+            if (confirm("로그아웃 하시겠습니까?")) {
+                location.href ='/'
+            }
+        }
+        //infinite paging
+        const io = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+
+                if (page._scrollchk) return;
+
+                observer.observe(document.getElementById('sentinel'));
+
+                page._page += 1;
+
+                page.list.search();
+
+            });
+        });
+
+        io.observe(document.getElementById('sentinel'));
+
+        $.ajax({
+            url: url,
+            data: param,
+            method: "GET",
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (err) {
+                console.log(err);
+            },
+            beforeSend: function () {
+                _scrollchk = true;
+
+                document.getElementById('list').appendChild(skeleton.show());
+                $(".loading").show();
+            },
+            complete: function () {
+                _scrollchk = false;
+                $(".loading").hide();
+                skeleton.hide();
+
+            }
+        });
+    </script>
+
+    <script>
+        window.onload = function () {
+            // 서버의 데이터를 받아오기
+            $.ajax({
+                type: "GET",
+                url: "/mypage/get",
+                data: {},
+                success: function (response) {
+                    for (i = 0; i < 'all_answers'.length; i++) {
+                        let question = response['all_answers'][i]['question']
+                        let answer = response['all_answers'][i]['answer']
+                        let time = response['all_answers'][i]['time']
+
+                        let temp_html = `<details>
+                                            <summary>
+                                                <h3>${question}</h3>
+                                            </summary>
+                                            <div class="answer-cards">
+                                                <article class="answer-card">
+                                                    <time>${time}</time>
+                                                    <h3>${answer}</h3>
+                                                </article>
+                                            </div>
+                                        </details>`
+
+                        $('.answer-list').prepend(temp_html);
+
+                    }
+                }
+            })
+        }
+    </script>
+
+
+    <!--스크롤바 스타일-->
+    <style>
+        .answer-list::-webkit-scrollbar {
+            width: 1rem;
+        }
+
+        .answer-list::-webkit-scrollbar-thumb {
+            background-color: #f5957d;
+            border-radius: 1rem;
+            background-clip: padding-box;
+            border: 2px solid transparent;
+        }
+
+        .answer-list::-webkit-scrollbar-track {
+            background-color: lightgrey;
+            border-radius: 10px;
+            box-shadow: inset 0px 0px 5px white;
+        }
+    </style>
+
+    <!-- 게시판 스타일 -->
+    <style>
+        .wrap {
+            width: 60vw;
+            margin: auto;
+        }
+
+        .answer-list {
+            height: 63vh;
+            overflow: auto;
+            padding-right: 0.5rem;
+        }
+
+        .list-title {
+            padding: 0 0 1rem 1rem;
+            margin-top: 5vh;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        details {
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.2);
+            padding: .75rem 1.25rem;
+
+            margin: 0 0 0.5rem;
+            font-size: 1.2rem;
+            box-sizing: border-box;
+        }
+
+        summary h3 {
+            font-size: 1.2rem;
+            line-height: 1.1;
+            display: inline;
+            cursor: pointer;
+        }
+
+        .answer-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .answer-card {
+            background-color: white;
+            border-radius: 8px;
+            border: 0.5px solid #eaeaea;
+            box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.1);
+            padding: .75rem 1.25rem;
+            font-size: 1.1rem;
+        }
+
+        .answer-card time {
+            font-size: .9rem;
+        }
+
+        .btns {
+            display: block;
+            margin: 0 auto 1rem auto;
+        }
+
+        button {
+            width: 25vw;
+            height: 8vh;
+            text-align: center;
+            font-size: 1.3rem;
+            margin: 3rem 0.5rem 0 0.5rem;
+            border-radius: 8px;
+            border: 0.5px solid #eaeaea;
+            box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            cursor: pointer;
+
+        }
+
+        .change-info-btn {
+            background-color: #ff3300;
+            color: white;
+        }
+
+        .logout-btn {
+            background-color: grey;
+            color: white;
+        }
+
+        @media screen and (max-width: 780px) {
+            .wrap {
+                width: 75vw;
+            }
+        }
+
+        footer {
+            width: 100vw;
+            height: 6vh;
+            background: #ff3300;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div id="nav">
+            <div class="dropdown">
+                <a class="mypagebtn" href="/"><br>Home</a>
+                <a class="mypagebtn" href="/contents">QnA</a>
+            </div>
+            <div id="logbtn">
+                <a class="logoutbtn" type="button" href="javascript:void(0);" onclick="confirmLogout();"><br>Logout</a>
+            </div>
+        </div>
+    </header>
+    <div class="wrap">
+        <div class="list-title">답변 모아보기</div>
+        <div class="answer-list">
+
+        </div>
+        <center>
+            <div class="btns">
+                <button class="change-info-btn" onclick="location.href='/userinfo' ">회원정보 변경</button>
+                <button class="logout-btn" onclick="confirmLogout()">로그아웃</button>
+            </div>
+        </center>
+    </div>
+</body>
+
+</html>

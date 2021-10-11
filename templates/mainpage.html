@@ -21,19 +21,18 @@
     <meta property="og:image" content="/static/image/ogimage.png" />
 
     <!-- http://ogp.me/ -->
-   
+
     <meta property="og:type" content="website" />
-   
+
     <meta property="og:site_name" content="QnAnswers" />
-  
+
     <meta property="og:title" content="QnAnswers" />
-   
+
     <meta property="og:description" content="당신이 하고 싶은 모든 질문들" />
-  
+
     <meta property="og:image" content="/static/image/ogimage.png" />
-    
+
     <meta property="og:url" content="qnanswers.shop" />
-    
 
     <!-- https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started.html -->
     <meta property="twitter:card" content="" />
@@ -85,7 +84,7 @@
     <!-- <script src="js/main.js"></script> -->
 
     <script defer src="/static/js/backtotop.js"></script>
-    <script defer src="/static/js/display.js"></script>
+
     <script defer src="/static/js/popup.js"></script>
     <script defer src="/static/js/footericon.js"></script>
     <script src="/static/js/jquery.js"></script>
@@ -101,7 +100,6 @@
       }
     </script>
 
-   
     <!-- <script>
       function login() {
         let email = $("#email").val();
@@ -121,7 +119,6 @@
         });
       }
     </script> -->
-    
 
     <script>
       window.onload = function () {
@@ -133,21 +130,21 @@
             let questions = response["home_q"];
             let answers = response["home_a"];
 
-            let question_0 = questions[questions.length - 3]["question"];
-            let question_1 = questions[questions.length - 5]["question"];
-            let question_2 = questions[questions.length - 8]["question"];
-            let question_3 = questions[questions.length - 10]["question"];
-            let question_4 = questions[questions.length - 13]["question"];
-            let question_5 = questions[questions.length - 17]["question"];
-            let question_6 = questions[questions.length - 19]["question"];
+            let question_0 = questions[questions.length - 1]["question"];
+            let question_1 = questions[questions.length - 2]["question"];
+            let question_2 = questions[questions.length - 3]["question"];
+            let question_3 = questions[questions.length - 4]["question"];
+            let question_4 = questions[questions.length - 5]["question"];
+            let question_5 = questions[questions.length - 6]["question"];
+            let question_6 = questions[questions.length - 7]["question"];
 
-            let answer_0 = answers[answers.length - 3]["answer"];
-            let answer_1 = answers[answers.length - 5]["answer"];
-            let answer_2 = answers[answers.length - 8]["answer"];
-            let answer_3 = answers[answers.length - 10]["answer"];
-            let answer_4 = answers[answers.length - 13]["answer"];
-            let answer_5 = answers[answers.length - 17]["answer"];
-            let answer_6 = answers[answers.length - 19]["answer"];
+            let answer_0 = answers[answers.length - 1]["answer"];
+            let answer_1 = answers[answers.length - 2]["answer"];
+            let answer_2 = answers[answers.length - 3]["answer"];
+            let answer_3 = answers[answers.length - 4]["answer"];
+            let answer_4 = answers[answers.length - 5]["answer"];
+            let answer_5 = answers[answers.length - 6]["answer"];
+            let answer_6 = answers[answers.length - 7]["answer"];
 
             let temp_html = `<li class=qna-showcard qna-showcard-1">
                                             <div class="show-question-container">
@@ -490,13 +487,19 @@
                       id="password"
                       name="password"
                       required
-                    >
+                    />
                     <label for="password">PASSWORD</label>
                   </div>
                 </div>
               </div>
             </div>
-            <input name="submit" id="submit" type="submit" value="Log In" class="login-btn">
+            <input
+              name="submit"
+              id="submit"
+              type="submit"
+              value="Log In"
+              class="login-btn"
+            />
             <div class="other-option">
               <div>
                 <a href="/register" class="other-option_signup">Sign up!</a>
@@ -523,12 +526,10 @@
           data: data,
           dataType: "json",
           success: function (resp) {
-              alert('로그인 완료!')
             window.location.href = "/main/user";
           },
           error: function (resp) {
             console.log(resp);
-            $error.text(resp.responseJSON.error).removeClass("error--hidden");
           },
         });
 

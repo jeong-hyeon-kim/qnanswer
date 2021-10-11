@@ -103,7 +103,7 @@
         //로그아웃 알림 로그아웃
         function confirmLogout() {
             if (confirm("로그아웃 하시겠습니까?")) {
-                location.href ='/'
+                location.href ='/user/signout'
             }
         }
         //infinite paging
@@ -145,7 +145,6 @@
                 _scrollchk = false;
                 $(".loading").hide();
                 skeleton.hide();
-
             }
         });
     </script>

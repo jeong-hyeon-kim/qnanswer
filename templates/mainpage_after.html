@@ -1,3 +1,10 @@
+{% with messages = get_flashed_messages() %} {% if messages %}
+<script>
+  alert("{{messages[-1]}}");
+</script>
+{% endif %} {% endwith %}
+
+
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -111,21 +118,21 @@
             let questions = response["home_q"];
             let answers = response["home_a"];
 
-            let question_0 = questions[questions.length - 3]["question"];
-            let question_1 = questions[questions.length - 5]["question"];
-            let question_2 = questions[questions.length - 8]["question"];
-            let question_3 = questions[questions.length - 10]["question"];
-            let question_4 = questions[questions.length - 13]["question"];
-            let question_5 = questions[questions.length - 17]["question"];
-            let question_6 = questions[questions.length - 19]["question"];
+            let question_0 = questions[questions.length - 1]["question"];
+            let question_1 = questions[questions.length - 2]["question"];
+            let question_2 = questions[questions.length - 3]["question"];
+            let question_3 = questions[questions.length - 4]["question"];
+            let question_4 = questions[questions.length - 5]["question"];
+            let question_5 = questions[questions.length - 6]["question"];
+            let question_6 = questions[questions.length - 7]["question"];
 
-            let answer_0 = answers[answers.length - 3]["answer"];
-            let answer_1 = answers[answers.length - 5]["answer"];
-            let answer_2 = answers[answers.length - 8]["answer"];
-            let answer_3 = answers[answers.length - 10]["answer"];
-            let answer_4 = answers[answers.length - 13]["answer"];
-            let answer_5 = answers[answers.length - 17]["answer"];
-            let answer_6 = answers[answers.length - 19]["answer"];
+            let answer_0 = answers[answers.length - 1]["answer"];
+            let answer_1 = answers[answers.length - 2]["answer"];
+            let answer_2 = answers[answers.length - 3]["answer"];
+            let answer_3 = answers[answers.length - 4]["answer"];
+            let answer_4 = answers[answers.length - 5]["answer"];
+            let answer_5 = answers[answers.length - 6]["answer"];
+            let answer_6 = answers[answers.length - 7]["answer"];
 
             let temp_html = `<li class=qna-showcard qna-showcard-1">
                                             <div class="show-question-container">

@@ -1,106 +1,117 @@
+{% with messages = get_flashed_messages() %} {% if messages %}
+<script>
+  alert("{{messages[-1]}}");
+</script>
+{% endif %} {% endwith %}
+
 <!DOCTYPE html>
 <html lang="ko">
-
-<head>
+  <head>
     <meta name="author" content="BBakco" />
     <meta name="description" content="" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1"
+    />
 
     <!-- http://ogp.me/ -->
-    <meta property="og:title" content="QnAnswers"/>
-    <meta property="og:description" content="당신이 대답하고 싶은 모든 질문들"/>
-    <meta property="og:image" content="/static/image/ogimage.png"/>
+    <meta property="og:title" content="QnAnswers" />
+    <meta
+      property="og:description"
+      content="당신이 대답하고 싶은 모든 질문들"
+    />
+    <meta property="og:image" content="/static/image/ogimage.png" />
 
     <!-- https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started.html -->
-    <meta property="twitter:card" content="">
-    <meta property="twitter:site" content="">
-    <meta property="twitter:title" content="">
-    <meta property="twitter:description" content="">
-    <meta property="twitter:image" content="">
-    <meta property="twitter:url" content="">
+    <meta property="twitter:card" content="" />
+    <meta property="twitter:site" content="" />
+    <meta property="twitter:title" content="" />
+    <meta property="twitter:description" content="" />
+    <meta property="twitter:image" content="" />
+    <meta property="twitter:url" content="" />
 
     <title>QnAnswers</title>
 
     <!-- CSS reset, CSS style, Jquery import -->
-    <link rel="stylesheet" href="/static/reset.css">
-    <link rel="stylesheet" href="/static/signupstyle.css">
+    <link rel="stylesheet" href="/static/reset.css" />
+    <link rel="stylesheet" href="/static/signupstyle.css" />
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 
     <!-- 일반적인 fabicon 설정 (정현) -->
-    <link rel="icon" href="../static/image/fabicon.ico">
+    <link rel="icon" href="../static/image/fabicon.ico" />
     <!-- 아이폰용 fabicon 설정 (정현) -->
-    <link rel="apple-touch-icon" href="../static/image/fabicon.ico">
+    <link rel="apple-touch-icon" href="../static/image/fabicon.ico" />
     <!-- 인터넷 익스플로러용 fabicon 설정 -->
-    <link rel="short icon" type="image/x-icon" href="../static/image/fabicon.ico">
+    <link
+      rel="short icon"
+      type="image/x-icon"
+      href="../static/image/fabicon.ico"
+    />
 
     <!-- Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap"
+      rel="stylesheet"
+    />
 
-
-   
     <script src="/static/js/jquery.js"></script>
     <script>
-        $("form[name=signup]").submit(function(e) {
-        
-            var $form = $(this);
-            var $error = $form.find(".error");
-            var data = $form.serialize();
-            
-            console.log(data)
+      $("form[name=signup]").submit(function (e) {
+        var $form = $(this);
+        var $error = $form.find(".error");
+        var data = $form.serialize();
 
-            $.ajax({
-                type: "POST",
-                url: "/user/signup",
-                data: data,
-                dataType: "json",
-                success: function(resp) {
-                    alert('msg')
-                    window.location.href = "/"
-                },
-                error: function(resp) {
-                    alert(JSON.stringify(error))
-                    
-                }
-            })
-        
-            e.preventDefault();
-        })
-        </script>
+        console.log(data);
 
+        $.ajax({
+          type: "POST",
+          url: "/user/signup",
+          data: data,
+          dataType: "json",
+          success: function (resp) {
+            alert(response["msg"]);
+            window.location.href = "/";
+          },
+          error: function (resp) {
+            alert(response["error"]);
+            window.location.href = "/register";
+          },
+        });
 
+        e.preventDefault();
+      });
+    </script>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="body__container">
-        <section class="inner">
-            <h1>QUES<span style="font-size: 60px; color: black;">?</span>TION</h1>
-           
-            <form name="signup" method="POST" action="/user/signup">
-                <label for="name">Name</label>
-                <input type="text" name="name" class="field" required>
+      <section class="inner">
+        <h1>QUES<span style="font-size: 60px; color: black">?</span>TION</h1>
 
-                <label for="email">Email</label>
-                <input type="email" name="email" class="field" required>
+        <form name="signup" method="POST" action="/user/signup">
+          <label for="name">Name</label>
+          <input type="text" name="name" class="field" required />
 
-                <label for="password">Password</label>
-                <input type="password" name="password" class="field" required>
+          <label for="email">Email</label>
+          <input type="email" name="email" class="field" required />
 
-                <p class="error error--hidden"></p>
-                
-                <input id="submit" type="submit" name="submit" value="Sign up" class="btn">
+          <label for="password">Password</label>
+          <input type="password" name="password" class="field" required />
 
-            </form>
-           
-            
-        </section>
+          <p class="error error--hidden"></p>
+
+          <input
+            id="submit"
+            type="submit"
+            name="submit"
+            value="Sign up"
+            class="btn"
+          />
+        </form>
+      </section>
     </div>
-
-
-</body>
-
+  </body>
 </html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session, redirect
+from flask import Flask, render_template, request, jsonify, session, redirect, flash
 from pymongo import MongoClient
 from datetime import datetime
 from functools import wraps
@@ -43,6 +43,7 @@ def register():
     return render_template('register.html')
 
 @app.route('/mypage')
+@login_required
 def mypage():
     return render_template('mypage.html')
 
@@ -52,9 +53,11 @@ def contents():
     return render_template('contents.html')
 
 @app.route('/userinfo')
+@login_required
 def userinfo():
     return render_template('userinfo.html')
 
+#로그인 한 후에 보이는 메인페이지
 @app.route('/main/user')
 @login_required
 def afterlogin():
@@ -64,15 +67,17 @@ def afterlogin():
 def checksession():
     return render_template('session_view.html')
 
+
+
+
 # API 역할을 하는 부분
 # mainpage - section 2
 @app.route('/get', methods=['GET'])
 def home_get():
-    home_question = list(db.qs.find({}, {'_id': False, 'question': 1}))
-    home_answer = list(db.qs.find({}, {'_id': False, 'answer': 1}))
+    home_question = list(db.contents.find({}, {'_id': False, 'question': 1}))
+    home_answer = list(db.contents.find({}, {'_id': False, 'answer': 1}))
 
     return jsonify({'home_q': home_question, 'home_a': home_answer})
-
 
 # contents
 @app.route('/contents/get', methods=['GET'])
@@ -81,12 +86,12 @@ def contents_get():
 
     return jsonify({'all_questions': questions})
 
-
 @app.route('/contents/post', methods=['POST'])
 def contents_post():
-    user_receive = request.form['user_give']
+    # user_receive = request.form['user_give']
     question_receive = request.form['question_give']
     answer_receive = request.form['answer_give']
+    writer = session['user']['email']
 
     # 시각 데이터로 원하는 문자열 만들기(한글일 경우)
     time_now = datetime.now()
@@ -94,13 +99,13 @@ def contents_post():
     now_text = now_text.format('년', '월', '일', '시', '분')
 
             
-
     # db에 저장
     doc = {
         # 'user': session['user']['email'],
         'question': question_receive,
         'answer': answer_receive,
-        'time': now_text
+        'time': now_text,
+        'user': writer
     }
     
     db.contents.insert_one(doc)
@@ -111,35 +116,9 @@ def contents_post():
 # mypage
 @app.route('/mypage/get', methods=['GET'])
 def read_answers():
-    answers = list(db.contents.find({}, {'_id': False}))
+    answers = list(db.contents.find({'user': session['user']['email']}, {'_id': False}))
     # answers = list(db.mypage_sample.find({'id': 'id1'}, {'_id': False}))
     return jsonify({'all_answers': answers})
-
-
-# # 정현님 로그인
-# @app.route('/login/post', methods=['GET', 'POST'])
-# def login():
-#     email_receive = request.form['email_give']
-#     pw_receive = request.form['pw_give']
-
-#     users = list(db.register.find({}, {'_id': False, 'email': 1, 'pw': 1}))
-
-#     emailli = []
-#     pwli = []
-#     for user in users:
-#         emailli.append(user['email'])
-#         pwli.append(user['pw'])
-
-#     if "@" and "." not in email_receive:
-#         return jsonify({"msg": "이메일을 확인해주세요"})
-#     elif not (email_receive and pw_receive):
-#         return jsonify({'msg': '패스워드를 입력해주세요'})
-#     else:
-#         # for user in users:
-#         if email_receive in emailli and pw_receive in pwli:
-#             return jsonify({'msg': '환영합니다'})
-#         else:
-#             return jsonify({'msg': '입력값을 확인하세요'})
 
 
 
@@ -178,7 +157,10 @@ class User:
         del user['password']
         session['logged_in'] = True
         session['user'] = user
-        return jsonify(user), 200
+        # return jsonify(user), 200
+        flash("환영합니다❣️")
+        return render_template('mainpage_after.html')
+
 
     def signup(self):
         print(request.form)
@@ -199,13 +181,14 @@ class User:
 
         # 이미 존재하는 email인지 확인하기
         if db.users.find_one({"email": user['email']}):
-            return jsonify({"error": "이메일 주소가 이미 사용중입니다."}), 400
-
-        if db.users.insert_one(user):
-            return self.start_session(user)
-            return jsonify({"msg":"회원가입 완료!"})
-
-        return jsonify({"error": "Signup failed"}), 400
+            # return jsonify({"error": "이메일 주소가 이미 사용중입니다."}), 400
+            flash("이메일 주소가 이미 사용중입니다.")  
+            return render_template('register.html');
+        elif db.users.insert_one(user):
+            # flash("회원가입 완료! 환영합니다!") 
+            return self.start_session(user);
+        else:
+            return jsonify({"error": "Signup failed"}), 400;
 
     def signout(self):
         session.clear()
@@ -218,8 +201,9 @@ class User:
         #패스워드도 확인하는 절차 : 앞에 암호화된 부분, 뒤에를 암호화 안 된 입력값으로 넣어야 되더라는!(순서 중요)
         if user and check_password_hash(user['password'], request.form.get('password')):
             return self.start_session(user)
-            print(session["logged_in"])
+            # print(session["logged_in"]);
         return jsonify({"error": "invalid login credentials"}), 401
+
 
 # routes.py
 @app.route('/user/signup', methods=['POST'])

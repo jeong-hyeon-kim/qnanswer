@@ -149,17 +149,18 @@ def read_answers():
 #     db.register.insert_one(doc)
 #     return jsonify({'msg': '회원가입 완료!'})
 
-# 이하  models.py 부분
 
+# 이하  models.py 부분
+# User 클래스 만들고 여러 메소드들
 class User:
 
     def start_session(self, user):
         del user['password']
         session['logged_in'] = True
         session['user'] = user
-        # return jsonify(user), 200
-        flash("환영합니다❣️")
+        flash("환영합니다!")
         return render_template('mainpage_after.html')
+        
 
 
     def signup(self):
@@ -200,7 +201,7 @@ class User:
         })
         #패스워드도 확인하는 절차 : 앞에 암호화된 부분, 뒤에를 암호화 안 된 입력값으로 넣어야 되더라는!(순서 중요)
         if user and check_password_hash(user['password'], request.form.get('password')):
-            return self.start_session(user)
+            return self.start_session(user);
             # print(session["logged_in"]);
         return jsonify({"error": "invalid login credentials"}), 401
 

@@ -115,6 +115,8 @@ a {
 
 .login-btn{
     margin-top: 20px;
+    outline: none;
+    box-shadow: none;
 }
 
 .login-popup a {

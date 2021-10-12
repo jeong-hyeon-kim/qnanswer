@@ -268,7 +268,14 @@
         });
       };
     </script>
-
+    <script>
+    //로그아웃 알림 로그아웃
+        function confirmLogout() {
+            if (confirm("로그아웃 하시겠습니까?")) {
+                location.href ='/user/signout'
+            }
+        }
+    </script>
     <!--카톡 링크 공유하기 하려면 필요하다는 부분-->
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   </head>
@@ -277,7 +284,7 @@
       <div class="header">
         <div class="row">
           <div class="header_menu">
-            <a href="/user/signout" class="logoutBtn">Logout</a>
+            <a href="/user/signout" class="logoutBtn" onclick="confirmLogout()">Logout</a>
           </div>
         </div>
       </div>

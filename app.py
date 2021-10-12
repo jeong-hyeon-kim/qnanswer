@@ -11,12 +11,12 @@ import uuid
 import pymongo
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-#routes.py에서 추가로 Import.
+#routes.py에서 추가로 Import(할게 없었다)
 
 app = Flask(__name__)
 app.secret_key = b'\xd79\x91@\x87\nM\x85=\xb0QL\n\xd5b('
 
+#db 이름이랑, 이하 collection이름들을 영선님 파일에 맞추어야 할 것
 client =  pymongo.MongoClient('localhost', 27017)
 db = client.qnanswers
 
@@ -63,13 +63,14 @@ def userinfo():
 def afterlogin():
     return render_template('mainpage_after.html')
 
+#세션상태 확인하는 곳
 @app.route('/session')
 def checksession():
     return render_template('session_view.html')
 
 
 
-
+# 컨텐츠 관련해서 영선님 db랑 연결되어서 get, post하는 부분
 # API 역할을 하는 부분
 # mainpage - section 2
 @app.route('/get', methods=['GET'])
@@ -86,11 +87,14 @@ def contents_get():
 
     return jsonify({'all_questions': questions})
 
+
+# contents에서 글을 post하는 부분.
 @app.route('/contents/post', methods=['POST'])
 def contents_post():
     # user_receive = request.form['user_give']
     question_receive = request.form['question_give']
     answer_receive = request.form['answer_give']
+    #이 아래 writer가 세션에 들어가 있는 현재 사용자의 email 정보를 받아오는 변수
     writer = session['user']['email']
 
     # 시각 데이터로 원하는 문자열 만들기(한글일 경우)
@@ -114,6 +118,7 @@ def contents_post():
 
 
 # mypage
+#여기서 db에서 contents 콜렉션에서 'user'키에 해당하는 값이 현재 세션의 email 정보와 동일할 경우에만 자료를 가져옴.
 @app.route('/mypage/get', methods=['GET'])
 def read_answers():
     answers = list(db.contents.find({'user': session['user']['email']}, {'_id': False}))
@@ -121,7 +126,7 @@ def read_answers():
     return jsonify({'all_answers': answers})
 
 
-
+# 이전의 회원가입 코드.
 # # register
 # @app.route('/register', methods=['POST'])
 # def register_info():
@@ -206,6 +211,7 @@ class User:
         return jsonify({"error": "invalid login credentials"}), 401
 
 
+# 회원가입, 로그아웃(signout), 로그인에 대한 routes.
 # routes.py
 @app.route('/user/signup', methods=['POST'])
 def signup():

@@ -101,7 +101,7 @@ a {
     z-index: 999;
     display: flex;
     visibility: hidden;
-    transition: all 0.4s;
+    transition: all 0.5s ease;
     margin: 0 auto;
     position: fixed;
     top: 50%;
@@ -111,13 +111,6 @@ a {
     -moz-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-}
-
-.login-btn{
-    margin-top: 20px;
-    outline: none;
-    box-shadow: none;
-    border: none;
 }
 
 .login-popup a {
@@ -141,7 +134,7 @@ a {
     height: 100%;
     background-color: rgba(0,0,0,0.6);
     visibility: hidden;
-    transition: all 0.4s;
+    transition: all 0.5s ease;
 }
 
 /* inputbox에 대한 효과 */
@@ -193,12 +186,12 @@ a {
     bottom:0;
     padding:0 6px;
     color:#999;
-    font-size:14px;
+    font-size:13px;
     font-weight:normal;
     background:#fff;
     transform:scale(1)
     translate(4px, -18px);
-    transition:all .15s;
+    transition:all .3s;
     pointer-events:none;}
 
 .outBox .inputBox input[type="text"]:focus,
@@ -247,20 +240,20 @@ a {
 
 .login-container_input_id img {
     width: 30px;
-    transform: translateY(10px);
+    /* transform: translateY(10px); */
     margin-right: 5px;
     display: inline-block;
 }
 
 .login-container_input_pw img {
     width: 30px;
-    transform: translateY(10px);
+    /* transform: translateY(10px); */
     margin-right: 5px;
     display: inline-block;
 }
 
 .login-btn {
-    width: 90%;
+    width: 100%;
     height: 40px;
     background: #ff3300;
     margin: 10px auto;
@@ -270,6 +263,10 @@ a {
     text-align: center;
     line-height: 40px;
     position: relative;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    
 }
 
 .login-btn:hover {
@@ -421,7 +418,7 @@ a {
     overflow: hidden;
 }
 
-.section--second {
+.section_02 {
     position: relative;
     background-color: #ffffff;
     background-size: cover;
@@ -587,7 +584,7 @@ a {
 .section_03 .member_title {
     font-size: 40px;
     font-family: 'Cormorant Garamond', serif;
-    padding-top: 50px;
+    padding-top: 30px;
     padding-left: 130px;
 }
 
@@ -631,6 +628,10 @@ a {
     padding-top: 55px;
 }
 
+.footer_icon ul {
+    padding-left: 0;
+
+}
 
  .footer_icon li {
 display: inline; 
@@ -654,7 +655,8 @@ margin: 0 10px;
             transform: translateX(-50%); 
             font-size: 12px; 
             line-height: 1.6; 
-            background: #fff; 
+            background: #fff;
+            box-shadow: 0 0 0 100px rgba(0,0,0,0.1) inset; 
             padding: 3px 9px; 
             border-radius: 6px 6px; 
             opacity: 0; 
@@ -679,11 +681,19 @@ margin: 0 10px;
                 0 0 0 100px rgba(0,0,0,0.1) inset;
         }
 
-        .footer_icon li .kakaotalk img {
+        .footer_icon ul li a img {
             width: 40px;
             height: 40px;
-            transform: translateY(10px);
+            transform: translateY(-3px);
             justify-content: center;
+        }
+
+        .footer_icon--after ul li a img {
+            transform: translateY(11px);
+        }
+
+        .footer_icon--after ul li a i {
+            transform: translateY(11px);
         }
 
         .footer-icon_title {
@@ -796,7 +806,7 @@ margin: 0 10px;
 
     .section_03 .member_title {
         font-size: 35px;
-        padding-top: 50px;
+        padding-top: 20px;
         padding-left: 140px;
     }
 }
@@ -840,7 +850,7 @@ margin: 0 10px;
 
     .section_03 .member_title {
         font-size: 33px;
-        padding-top: 50px;
+        padding-top: 15px;
         padding-left: 140px;
     }
 
@@ -874,7 +884,7 @@ margin: 0 10px;
 
     .section_03 .member_title {
         font-size: 33px;
-        padding-top: 50px;
+        padding-top: 15px;
         padding-left: 60px;
     }
   

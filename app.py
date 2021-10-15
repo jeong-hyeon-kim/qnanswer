@@ -7,9 +7,10 @@ from functools import wraps
 #models.py에서 추가로 import 필요한 것들.
 # from passlib.hash import pbkdf2_sha256
 import hashlib 
-import uuid
+import uuid 
 import pymongo
 from werkzeug.security import generate_password_hash, check_password_hash
+#werkzeug.security :이걸로 비밀번호 암호화
 
 #routes.py에서 추가로 Import(할게 없었다)
 
@@ -165,8 +166,8 @@ class User:
         session['user'] = user
         flash("환영합니다!")
         return render_template('mainpage_after.html')
-        
-
+    
+    # flash 띄울 때 '00님'부르도록 하자
 
     def signup(self):
         print(request.form)

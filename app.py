@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, flash
+import pymongo
 from pymongo import MongoClient
 from datetime import datetime
 from functools import wraps
+import re
+from flask.json import jsonify
 
 
 #models.py에서 추가로 import 필요한 것들.
@@ -20,7 +23,6 @@ app.secret_key = b'\xd79\x91@\x87\nM\x85=\xb0QL\n\xd5b('
 #db 이름이랑, 이하 collection이름들을 영선님 파일에 맞추어야 할 것
 client =  pymongo.MongoClient('localhost', 27017)
 db = client.qnanswers
-
 
 # 데코레이터 - 로그인 할 경우만 들어갈 수 있음
 def login_required(func):
@@ -57,6 +59,10 @@ def contents():
 @login_required
 def userinfo():
     return render_template('userinfo.html')
+
+@app.route('/search')
+def search():
+    return render_template('search.html')
 
 #로그인 한 후에 보이는 메인페이지
 @app.route('/main/user')
@@ -125,6 +131,20 @@ def read_answers():
     answers = list(db.contents.find({'user': session['user']['email']}, {'_id': False}))
     # answers = list(db.mypage_sample.find({'id': 'id1'}, {'_id': False}))
     return jsonify({'all_answers': answers})
+
+
+
+# 키워드 검색 페이지
+@app.route('/keyword/search', methods=['POST'])
+def keywordsearch():
+    contents = db.contents
+    answer_li = list()
+    word = request.form.get('keyword')
+    # docs = contents.find({'$text': {'$search': word}},{'_id':0, 'answer':1})
+    docs = contents.find({'answer':{'$regex': word}},{'_id':0, 'question':1, 'answer':1})
+    for doc in docs:
+        answer_li.append(doc)
+    return jsonify({'all-results': answer_li})
 
 
 # 이전의 회원가입 코드.

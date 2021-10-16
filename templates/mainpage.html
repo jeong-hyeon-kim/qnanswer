@@ -113,6 +113,8 @@
     </script>
     <script defer src="/static/js/sharing.js"></script>
 
+    <script src="https://deveplopers.kakao.com/sdk/js/kakao.js"></script>
+
     <script>
       function startToAnswer() {
         alert("로그인을 해주세요😊!");
@@ -423,9 +425,10 @@
         <ul>
           <li>
             <a
+              id="kakao-link-btn"
               style="cursor: pointer"
               class="kakaotalk"
-              onclick="js:kakaoShare()"
+              href="javascript:sendLink()"
             >
               <img src="/static/image/kakaotalk.svg" />
               <span>KakaoTalk</span>
@@ -514,7 +517,7 @@
       </center>
       <a href="/" id="exit-loginbox">x</a>
     </div>
-    <div class="dim"></div>
+    <div class="login-dim"></div>
 
     <script>
       $("form[name=login]").submit(function (e) {
@@ -538,6 +541,33 @@
           },
         });
       });
+    </script>
+
+    <!-- 카카오톡 공유 자바스크립트라고 했는데... -->
+    <script type="text/javascript">
+      Kakao.init('6c488a809443edb2caac91994d2af0a5');
+      kakao.Link.createDefaultButton({
+        container: '#kakao-link-btn',
+        objectType: 'feed',
+        content: {
+          title: document.title,
+          description: '#해시태그 또는 내용',
+          imageUrl: '',
+          link: {
+            webUrl: document.location.href,
+            mobileWebUrl: document.location.href
+          }
+        },
+        buttons: [
+          {
+            title: 'Open!',
+            link: {
+              mobileWebUrl: document.locaton.href,
+              webUrl: document.location.href
+            }
+          }
+        ]
+      })
     </script>
   </body>
 </html>

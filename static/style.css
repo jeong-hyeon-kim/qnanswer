@@ -10,11 +10,12 @@
 
 /* 스크롤바 */
 body::-webkit-scrollbar {
-    width:1rem;
+    width:0.9rem;
 }
 body::-webkit-scrollbar-thumb {
     background-color: #f5957d;
-    border-radius: 1rem;
+    
+    border-radius: 0.3rem;
     background-clip: padding-box;
     border: 2px solid transparent;
 }
@@ -22,8 +23,8 @@ body::-webkit-scrollbar-track {
     background-color: lightgrey;
     border-radius: 10px;
     box-shadow: inset 0px 0px 5px white;
-}
-
+} 
+ 
 
 /* 레이아웃 */
 body {
@@ -121,12 +122,12 @@ a {
     visibility: visible;
 }
 
-.login-popup:target + .dim {
+.login-popup:target + .login-dim {
     visibility: visible;
     z-index: 998;
 }
 
-.dim {
+.login-dim {
     position: fixed;
     left: 0;
     top: 0;
@@ -887,7 +888,17 @@ margin: 0 10px;
         padding-top: 15px;
         padding-left: 60px;
     }
+
+    .login-title {
+        font-size: 30px;
+    }
   
+}
+
+@media (max-width: 536px) {
+    .login-title {
+        font-size: 25px;
+    }
 }
 
 @media (max-width: 508px) {

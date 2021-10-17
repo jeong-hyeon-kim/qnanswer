@@ -27,36 +27,32 @@
     </style>
   </head>
   <body>
+    <br><br>
     <center>
-      <form
-        name="search-box"
-        method="POST"
-        class="search-box"
-        action="/keyword/search"
-      >
-        <div class="inputBox keyword-inputbox">
-          <input
-            type="text"
-            id="keyword"
-            name="keyword"
-            autocomplete="off"
-            required
-          />
-        </div>
-
+    <form name="search-box" method="POST" class="search-box" action="/keyword/search">
+      <div class="inputBox keyword-inputbox">
         <input
-          name="submit"
-          id="submit"
-          type="submit"
-          value="검색"
-          class="search-btn"
+          type="text"
+          id="keyword"
+          name="keyword"
+          autocomplete="off"
+          required
         />
-      </form>
-      <div class="results-list">
-        <p>답변 중에서 키워드 검색</p>
       </div>
-    </center>
-    <br />
+      <input type="radio" value="all" name="scope" checked>모든 글
+      <input type="radio" value="useronly" name="scope">나의 글<br>
+      <input
+        name="submit"
+        id="submit"
+        type="submit"
+        value="검색"
+        class="search-btn"
+      />
+    </form>
+    <div class="results-list">
+      <p>질문과 답변 모두에서 키워드 검색</p>
+    </div>
+  </center>
 
     
 

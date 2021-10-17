@@ -77,7 +77,7 @@ def checksession():
 
 
 
-# 컨텐츠 관련해서 영선님 db랑 연결되어서 get, post하는 부분
+# db랑 연결되어서 get, post하는 부분
 # API 역할을 하는 부분
 # mainpage - section 2
 @app.route('/get', methods=['GET'])

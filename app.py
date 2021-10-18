@@ -143,15 +143,18 @@ def keywordsearch():
     scope = request.form.get('scope')
 
     if scope == 'all':
-        docs = contents.find({'$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':0, 'question':1, 'answer':1})
+        docs = contents.find({'$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':0, 'question':1, 'answer':1, 'user':1})
         for doc in docs:
             answer_li.append(doc)
-        return jsonify({'all-results': answer_li})
+        samples = answer_li
+        return render_template('search.html', samples = samples)
     elif scope == 'useronly':
-        docs = contents.find({'user': session['user']['email'], '$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':0, 'question':1, 'answer':1})
+        docs = contents.find({'user': session['user']['email'], '$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':0, 'question':1, 'answer':1, 'user':1})
         for doc in docs:
             answer_li.append(doc)
-        return jsonify({'all-results': answer_li})
+        samples = answer_li
+        return render_template('search.html', samples = samples)
+        
 
 
 # 이전의 회원가입 코드.

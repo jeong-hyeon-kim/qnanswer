@@ -20,13 +20,31 @@
     ></script>
 
     <style>
-        .result-box {
-            margin-left: 30px;
+        .results-list {
+            margin: 0 auto;
+            width: 80%;
             background-color: lightblue;
         }
     </style>
   </head>
   <body>
+    <script>
+      $("form[name=search-box]").submit(function (e) {
+        var $form = $(this);
+        var data = $form.serialize();
+
+        $.ajax({
+          type: "POST",
+          url: "/keyword/search",
+          data: data,
+          dataType: "json",
+          success: function (response) {
+            console.log(response)
+          },
+        });
+      });
+    </script>
+
     <br><br>
     <center>
     <form name="search-box" method="POST" class="search-box" action="/keyword/search">
@@ -39,8 +57,10 @@
           required
         />
       </div>
+      <br>
       <input type="radio" value="all" name="scope" checked>모든 글
       <input type="radio" value="useronly" name="scope">나의 글<br>
+      <br>
       <input
         name="submit"
         id="submit"
@@ -49,42 +69,24 @@
         class="search-btn"
       />
     </form>
-    <div class="results-list">
       <p>질문과 답변 모두에서 키워드 검색</p>
-    </div>
-  </center>
+      <a href="/main/user">home으로 가기</a>
+   <div class="results-list">
+    <ul>
+      {% for sample in samples %}
+      <li>
+        {{sample['question']}}<br>
+        {{sample['answer']}}<br>
+        {{sample['user']}}
+      </li>
+      <br>
+      {% endfor %}
+    </ul>
+   </div>
 
     
+  </center>
 
-    <script>
-      $("form[name=search-box]").submit(function (e) {
-        var $form = $(this);
-        var data = $form.serialize();
 
-        console.log(data);
-
-        $.ajax({
-          type: "POST",
-          url: "/keyword/search",
-          data: data,
-          dataType: "json",
-          success: function (response) {
-            for (i = 0; i < "all_results".length; i++) {
-              let question = response["all_results"][i]["question"];
-              let answer = response["all_results"][i]["answer"];
-              let temp_html = `<div class="result-box">
-                                    <h2>${question}</h2>
-                                    <br />
-                                    <h3>${answer}</h3>
-                                </div>`;
-
-              $(".results-list").append(temp_html);
-
-            console.log(answer)
-            }
-          },
-        });
-      });
-    </script>
   </body>
 </html>

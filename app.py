@@ -116,7 +116,8 @@ def contents_post():
         'question': question_receive,
         'answer': answer_receive,
         'time': now_text,
-        'user': writer
+        'user': writer,
+        'like':0
     }
     
     db.contents.insert_one(doc)
@@ -143,19 +144,31 @@ def keywordsearch():
     scope = request.form.get('scope')
 
     if scope == 'all':
-        docs = contents.find({'$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':0, 'question':1, 'answer':1, 'user':1})
+        docs = contents.find({'$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':1, 'question':1, 'answer':1, 'like':1})
         for doc in docs:
             answer_li.append(doc)
         results = answer_li
         return render_template('search.html', results = results, range = '모든 글', keyword = word)
     elif scope == 'useronly':
-        docs = contents.find({'user': session['user']['email'], '$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':0, 'question':1, 'answer':1, 'user':1})
+        docs = contents.find({'user': session['user']['email'], '$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':1, 'question':1, 'answer':1, 'like':1})
         for doc in docs:
             answer_li.append(doc)
         results = answer_li
         return render_template('search.html', results = results, range = '나의 글', keyword = word)
         
 
+# 좋아요 기능 하고 싶음...
+@app.route('/like', methods=['POST'])
+def like():
+    contents = db.contents
+    text_receive = request.form['text_give']
+    target = contents.find_one({'answer':text_receive})
+    current_like = target['like']
+    new_like = current_like + 1
+    contents.update_one({'answer':text_receive},{'$set': {'like': new_like}})
+    return jsonify({'msg': '공감 완료!'})
+
+    
 
 # 이전의 회원가입 코드.
 # # register

@@ -20,8 +20,9 @@
     ></script>
 
     <script
-    src="https://kit.fontawesome.com/f1def33959.js"
-    crossorigin="anonymous"></script>
+      src="https://kit.fontawesome.com/f1def33959.js"
+      crossorigin="anonymous"
+    ></script>
     <script defer src="/static/js/backtotop.js"></script>
 
     <!-- 일반적인 fabicon 설정 (정현) -->
@@ -36,7 +37,6 @@
     />
 
     <style>
-
       a {
         text-decoration: none;
       }
@@ -85,7 +85,7 @@
         background-color: #ff3300;
       }
 
-      .results-list {  
+      .results-list {
         margin: 0 auto;
         width: 80%;
         border: 2px;
@@ -125,52 +125,61 @@
         margin: 25px 20px 25px 20px;
       }
 
+      .result-answer-container ._id {
+        visibility: hidden;
+      }
+
+      .likes-num {
+        font-size: 10px;
+        color: white
+      }
+
       .like-btn {
         position: absolute;
         bottom: 12px;
         right: 12px;
       }
 
-      .like-btn_image{
-        width: 40px;
+      .like-btn_image {
+        width: 30px;
+        display: block;
       }
 
+      #backtotop {
+        background-color: rgb(47, 48, 89);
+        width: 40px;
+        height: 40px;
+        text-align: center;
 
-#backtotop {
-  background-color: rgb(47, 48, 89);
-  width: 40px;
-  height: 40px;
-  text-align: center;
+        border-radius: 20px;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        transition-property: background-color, opacity, visibility;
+        transition-duration: 0.3s, 0.5s, 0.5s;
+        opacity: 0;
+        visibility: hidden;
+        z-index: 999;
+      }
 
-  border-radius: 20px;
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  transition-property: background-color, opacity, visibility;
-  transition-duration: 0.3s, 0.5s, 0.5s;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 999;
-}
+      #backtotop::after {
+        content: "\f077";
+        font-family: FontAwesome;
+        font-size: 1.5rem;
+        line-height: 40px;
+        color: #fff;
+      }
 
-#backtotop::after {
-  content: "\f077";
-  font-family: FontAwesome;
-  font-size: 1.5rem;
-  line-height: 40px;
-  color: #fff;
-}
+      #backtotop.show:hover {
+        cursor: pointer;
+        background-color: #2186c4;
+      }
 
-#backtotop.show:hover {
-  cursor: pointer;
-  background-color: #2186c4;
-}
-
-#backtotop.show {
-  opacity: 1;
-  visibility: visible;
-  background-color: rgb(47, 48, 49);
-}
+      #backtotop.show {
+        opacity: 1;
+        visibility: visible;
+        background-color: rgb(47, 48, 49);
+      }
     </style>
   </head>
 
@@ -245,33 +254,42 @@
               <div class="result-question-text">{{result['question']}}</div>
             </div>
 
-            <div class="result-answer-container">
-              <div class="result-answer-text">
-                {{result['answer']}} <br /><br /><br>글쓴이: {{result['user']}}
-              </div>
-            </div>
-      
-            
-                <a
-                  style="cursor: pointer"
-                  class="like-btn"
-                  onclick="like()"
-                  href="#"
-                >
-                  <img src="/static/image/heart-white.png" 
-                  onmouseover="this.src='../static/image/heart-red-like.png'"
-                  onmouseout="this.src='../static/image/heart-white.png'"
-                  class="like-btn_image"/>
-                </a>
-              
+            <div class="result-answer-text">{{result['answer']}}</div>
 
-
+            <a style="cursor: pointer" class="like-btn" href="#">
+              <span class="likes-num">{{result['like']}}</span>
+              <img
+                src="/static/image/heart-white.png"
+                onmouseover="this.src='../static/image/heart-red-like.png'"
+                onmouseout="this.src='../static/image/heart-white.png'"
+                id="like-btn_image"
+                class="like-btn_image"
+              />
+            </a>
           </li>
           {% endfor %}
         </ul>
       </div>
     </center>
 
+    <script>
+      $("a").click(function (event) {
+        eventElem = event.target;
+        testElem = eventElem.parentElement;
+        targetElem = testElem.previousElementSibling;
+        text = targetElem.innerText;
+        console.log(text)
 
+        $.ajax({
+          type: "POST",
+          url: "/like",
+          data: { text_give: text },
+          success: function (response) {
+            alert(response["msg"]);
+            window.location.reload();
+          },
+        });
+      });
+    </script>
   </body>
 </html>

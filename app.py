@@ -146,14 +146,14 @@ def keywordsearch():
         docs = contents.find({'$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':0, 'question':1, 'answer':1, 'user':1})
         for doc in docs:
             answer_li.append(doc)
-        samples = answer_li
-        return render_template('search.html', samples = samples)
+        results = answer_li
+        return render_template('search.html', results = results, range = '모든 글', keyword = word)
     elif scope == 'useronly':
         docs = contents.find({'user': session['user']['email'], '$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':0, 'question':1, 'answer':1, 'user':1})
         for doc in docs:
             answer_li.append(doc)
-        samples = answer_li
-        return render_template('search.html', samples = samples)
+        results = answer_li
+        return render_template('search.html', results = results, range = '나의 글', keyword = word)
         
 
 

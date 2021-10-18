@@ -1,4 +1,4 @@
-/* 순서 (1)전체, 레이아웃 (2)login-popup (3)로그인팝업창 
+/* 순서 (1)전체, 레이아웃 (2)헤더 (3)로그인팝업창 
 (4)section01 -> 02 -> 03 (5)footer (6)미디어쿼리로 조절 */
 
 * {
@@ -76,7 +76,7 @@ a {
 .header .header_menu a {
   text-decoration: none;
   color: #ffffff;
-  padding: 15px 0 6px 10px;
+  padding: 15px 20px 6px 20px;
   display: inline-block;
   transition: color 0.3s ease;
   font-family: "Cormorant Garamond", serif;
@@ -601,6 +601,7 @@ a {
   display: inline;
   margin: 0 10px;
 }
+
 .footer_icon li a {
   position: relative;
   background-color: #fff;
@@ -655,13 +656,13 @@ a {
   justify-content: center;
 }
 
-.footer_icon--after ul li a img {
+/* .footer_icon--after ul li a img {
   transform: translateY(11px);
 }
 
 .footer_icon--after ul li a i {
   transform: translateY(11px);
-}
+} */
 
 .footer-icon_title {
   font-size: 25px;

@@ -19,14 +19,110 @@
       crossorigin="anonymous"
     ></script>
 
+
+    <!-- 일반적인 fabicon 설정 (정현) -->
+    <link rel="icon" href="../static/image/fabicon.ico" />
+    <!-- 아이폰용 fabicon 설정 (정현) -->
+    <link rel="apple-touch-icon" href="../static/image/fabicon.ico" />
+    <!-- 인터넷 익스플로러용 fabicon 설정 -->
+    <link
+      rel="short icon"
+      type="image/x-icon"
+      href="../static/image/fabicon.ico"
+    />
+
     <style>
-        .results-list {
-            margin: 0 auto;
-            width: 80%;
-            background-color: lightblue;
-        }
+
+      .header {
+        width: 100%;
+        height: 55px;
+        background-color: #ff3300;
+        padding: 0.3rem;
+      }
+
+      .header .header_menu {
+        text-align: right;
+      }
+
+      .header .header_menu a {
+        text-decoration: none;
+        color: #ffffff;
+        padding: 10px 40px 6px 10px;
+        display: inline-block;
+        transition: color 0.3s ease;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
+
+      .header .header_menu a:hover {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .range-text,
+      .keyword-text {
+        color: #ff3300;
+        font-weight: 700;
+      }
+
+      .search-btn {
+        width: 60px;
+        border: none;
+        border-radius: 6px;
+        background-color: rgb(236, 223, 215);
+        color: #ffffff;
+      }
+
+      .search-btn:hover {
+        background-color: #ff3300;
+      }
+
+      .results-list {  
+        margin: 0 auto;
+        width: 80%;
+        border: 2px;
+        display: flex;
+      }
+
+      .result-showcard {
+        width: 320px;
+        height: 270px;
+        background-color: rgb(236, 223, 215);
+        box-shadow: 10px 10px 10px -5px rgba(25, 42, 70, 0.3);
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
+        display: inline-block;
+        margin-top: 20px;
+        margin-right: 40px;
+        position: relative;
+      }
+
+      .result-question-container {
+        margin: 50px 20px 25px 20px;
+      }
+
+      .result-question-text {
+        font-weight: 800;
+      }
+
+      .result-answer-container {
+        margin: 25px 20px 25px 20px;
+      }
+
+      .like-btn {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+      }
+
+      .like-btn_image{
+        width: 40px;
+      }
+
     </style>
   </head>
+
   <body>
     <script>
       $("form[name=search-box]").submit(function (e) {
@@ -39,54 +135,104 @@
           data: data,
           dataType: "json",
           success: function (response) {
-            console.log(response)
+            console.log(response);
           },
         });
       });
     </script>
 
-    <br><br>
-    <center>
-    <form name="search-box" method="POST" class="search-box" action="/keyword/search">
-      <div class="inputBox keyword-inputbox">
-        <input
-          type="text"
-          id="keyword"
-          name="keyword"
-          autocomplete="off"
-          required
-        />
+    <a id="backtotop" href="#"></a>
+
+    <header id="header">
+      <div class="header">
+        <div class="row">
+          <div class="header_menu">
+            <a href="/main/user" class="home-btn">Home</a>
+          </div>
+        </div>
       </div>
-      <br>
-      <input type="radio" value="all" name="scope" checked>모든 글
-      <input type="radio" value="useronly" name="scope">나의 글<br>
-      <br>
-      <input
-        name="submit"
-        id="submit"
-        type="submit"
-        value="검색"
-        class="search-btn"
-      />
-    </form>
-      <p>질문과 답변 모두에서 키워드 검색</p>
-      <a href="/main/user">home으로 가기</a>
-   <div class="results-list">
-    <ul>
-      {% for sample in samples %}
-      <li>
-        {{sample['question']}}<br>
-        {{sample['answer']}}<br>
-        {{sample['user']}}
-      </li>
-      <br>
-      {% endfor %}
-    </ul>
-   </div>
+    </header>
+    <br /><br />
+    <center>
+      <form
+        name="search-box"
+        method="POST"
+        class="search-box"
+        action="/keyword/search"
+      >
+        <div class="inputBox keyword-inputbox">
+          <input
+            type="text"
+            id="keyword"
+            name="keyword"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <br />
+        <input type="radio" value="all" name="scope" checked />모든 글
+        <input type="radio" value="useronly" name="scope" />나의 글<br />
+        <br />
+        <input
+          name="submit"
+          id="submit"
+          type="submit"
+          value="검색"
+          class="search-btn"
+        />
+      </form>
+      <br />
+      <p>
+        <span class="range-text">{{range}}</span>에서
+        <span class="keyword-text">"{{keyword}}"</span>을(를) 검색한 결과입니다.
+      </p>
+      <div class="results-list">
+        <ul>
+          {% for result in results %}
+          <li class="result-showcard">
+            <div class="result-question-container">
+              <div class="result-question-text">{{result['question']}}</div>
+            </div>
 
-    
-  </center>
+            <div class="result-answer-container">
+              <div class="result-answer-text">
+                {{result['answer']}} <br /><br /><br>글쓴이: {{result['user']}}
+              </div>
+            </div>
+      
+            
+                <a
+                  style="cursor: pointer"
+                  class="like-btn"
+                  onclick=""
+                  href="#"
+                >
+                  <img src="/static/image/heart-white.png" 
+                  onmouseover="this.src='../static/image/heart-red-like.png'"
+                  onmouseout="this.src='../static/image/heart-white.png'"
+                  class="like-btn_image"/>
+                </a>
+              
 
 
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </center>
+
+    <script>
+      function like(name) {
+        $.ajax({
+          type: "POST",
+          url: "/api/like",
+          data: { name_give: name },
+          success: function (response) {
+            alert(response["msg"]);
+            window.location.reload();
+          },
+        });
+      }
+    </script>
   </body>
 </html>

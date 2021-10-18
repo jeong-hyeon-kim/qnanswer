@@ -97,6 +97,11 @@
             font-family: 'Cormorant Garamond', serif;
         }
 
+
+        details .answer-cards .answer-card span {
+            font-size: 12px;
+            color: gray;
+        }
     </style>
 
     <script>
@@ -161,6 +166,7 @@
                         let question = response['all_answers'][i]['question']
                         let answer = response['all_answers'][i]['answer']
                         let time = response['all_answers'][i]['time']
+                        let likes = response['all_answers'][i]['like']
 
                         let temp_html = `<details>
                                             <summary>
@@ -170,6 +176,8 @@
                                                 <article class="answer-card">
                                                     <time>${time}</time>
                                                     <h3>${answer}</h3>
+                                                    <br><br>
+                                                    <span>${likes}명이 공감했어요</span>
                                                 </article>
                                             </div>
                                         </details>`

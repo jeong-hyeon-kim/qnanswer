@@ -165,8 +165,19 @@ def like():
     target = contents.find_one({'answer':text_receive})
     current_like = target['like']
     new_like = current_like + 1
-    contents.update_one({'answer':text_receive},{'$set': {'like': new_like}})
-    return jsonify({'msg': '공감 완료!'})
+
+    already_liked = db.users.find_one({'email': session['user']['email']},{'article-liked':1, '_id':0})
+    already_liked_list = already_liked['article-liked']
+    
+    print(already_liked_list)
+
+    if text_receive in already_liked_list:
+        return jsonify({'msg': '이미 공감한 글입니다.'})
+    else:
+        already_liked_list.append(text_receive)
+        db.users.update_one({'email': session['user']['email']},{'$set':{'article-liked': already_liked_list}})
+        contents.update_one({'answer':text_receive},{'$set': {'like': new_like}})
+        return jsonify({'msg': '공감 완료!'})
 
     
 
@@ -220,7 +231,8 @@ class User:
             "_id": uuid.uuid4().hex, #고유 식별자 만들어주는 거
             "name": request.form.get('name'),
             "email": request.form.get('email'),
-            "password": request.form.get('password')
+            "password": request.form.get('password'),
+            "article-liked": []
         }
         
         # password 암호화(encryption) -- 여러 시도들

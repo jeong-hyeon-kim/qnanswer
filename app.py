@@ -133,6 +133,11 @@ def read_answers():
     # answers = list(db.mypage_sample.find({'id': 'id1'}, {'_id': False}))
     return jsonify({'all_answers': answers})
 
+# 내가 공감한 글 모아보기
+# @app.route('mypage/liked-get', methods=['GET'])
+# def collectArticlesLiked():
+#     articles = db.users.find({'email':session['user']['email']},{})
+
 
 
 # 키워드 검색 페이지
@@ -142,21 +147,38 @@ def keywordsearch():
     answer_li = list()
     word = request.form.get('keyword')
     scope = request.form.get('scope')
+    standard =  request.form.get('align-standard')
 
     if scope == 'all':
         docs = contents.find({'$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':1, 'question':1, 'answer':1, 'like':1})
-        for doc in docs:
-            answer_li.append(doc)
-        results = answer_li
-        return render_template('search.html', results = results, range = '모든 글', keyword = word)
+        if standard == 'recent':
+            docs.sort('time', pymongo.DESCENDING)
+            for doc in docs:
+                answer_li.append(doc)
+            results = answer_li
+            return render_template('search.html', results = results, range = '모든 글', keyword = word)
+        elif standard == 'like':
+            docs.sort('like', pymongo.DESCENDING)
+            for doc in docs:
+                answer_li.append(doc)
+            results = answer_li
+            return render_template('search.html', results = results, range = '모든 글', keyword = word)
     elif scope == 'useronly':
         docs = contents.find({'user': session['user']['email'], '$or': [{'answer':{'$regex': word}}, {'question':{'$regex': word}}]},{'_id':1, 'question':1, 'answer':1, 'like':1})
-        for doc in docs:
-            answer_li.append(doc)
-        results = answer_li
-        return render_template('search.html', results = results, range = '나의 글', keyword = word)
+        if standard == 'recent':
+            docs.sort('time', pymongo.DESCENDING)
+            for doc in docs:
+                answer_li.append(doc)
+            results = answer_li
+            return render_template('search.html', results = results, range = '나의 글', keyword = word)
+        elif standard == 'like':
+            docs.sort('like', pymongo.DESCENDING)
+            for doc in docs:
+                answer_li.append(doc)
+            results = answer_li
+            return render_template('search.html', results = results, range = '나의 글', keyword = word)
         
-
+        
 # 좋아요 기능 하고 싶음...
 @app.route('/like', methods=['POST'])
 def like():
@@ -264,7 +286,7 @@ class User:
         if user and check_password_hash(user['password'], request.form.get('password')):
             return self.start_session(user);
             # print(session["logged_in"]);
-        return jsonify({"error": "invalid login credentials"}), 401
+        return jsonify({"error": "가입되어 있지 않은 이메일입니다."}), 401
 
 
 # 회원가입, 로그아웃(signout), 로그인에 대한 routes.

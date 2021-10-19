@@ -68,6 +68,7 @@
         -moz-appearance: none;
         -o-appearance:none;
         appearance: none;
+        border: rgba(0, 0, 0, 0.623) 3px solid;
       }
 
       .keyword-inputbox input:focus {
@@ -283,6 +284,7 @@
             <a href="/contents" class="contents-btn">QnA</a>
             <a href="/mypage" class="mypage-btn">Mypage</a>
             <a href="/main/user" class="home-btn">Home</a>
+            <a href="/user/signout" class="logout-btn">Logout</a>
           </div>
         </div>
       </div>
@@ -305,9 +307,13 @@
             required
           />
         </div>
-        <br />
+        <br />검색 범위:
         <input type="radio" value="all" name="scope" checked />모든 글
         <input type="radio" value="useronly" name="scope" />나의 글<br />
+        
+        <br />정렬 기준:
+        <input type="radio" value="recent" name="align-standard" checked />최근 글
+        <input type="radio" value="like" name="align-standard" />공감 수<br />
         <br />
         <input
           name="submit"
@@ -316,6 +322,7 @@
           value="검색"
           class="search-btn"
         />
+        
       </form>
       <br />
       <p id="description">
